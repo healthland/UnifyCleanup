@@ -1,0 +1,22 @@
+﻿[
+ {
+   "OrganizationId": 387,
+   "DBConnectionId": 1,
+   "Organization": "de83f66a-d66f-4a17-963d-a5c1510c1ddb"
+ },
+ {
+   "OrganizationId": 432,
+   "DBConnectionId": 1,
+   "Organization": "d7e239b1-e975-47bd-a313-36368276bcdb"
+ },
+ {
+   "OrganizationId": 447,
+   "DBConnectionId": 1,
+   "Organization": "805b452b-163e-47a9-9a70-194d556e5c64"
+ },
+ {
+   "OrganizationId": 303,
+   "DBConnectionId": 2,
+   "Organization": "edbf23fa-3ce0-4075-88f0-33d2f00f2bac"
+ }
+]
