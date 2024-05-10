@@ -8,7 +8,8 @@ namespace RemoveDuplicateIdentifier.Models
 {
     internal class IMDuplicates
     {
-        public string organizationId { get; set; } = string.Empty;
+        public string OrganizationId { get; set; } = string.Empty;
         public string IdentifierValue { get; set; } = string.Empty;
+        public string Count { get; set; } = string.Empty;
     }
 }

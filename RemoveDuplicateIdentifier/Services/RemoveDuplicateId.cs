@@ -76,8 +76,8 @@ namespace RemoveDuplicateIdentifier.Services
                         var partitionTable = "TPatientInfo_" + item.OrganizationId.ToString();
                         conn.Open();
                         using var command = conn.CreateCommand();
-                        sql = $"SELECT   \"IdentifierSystem\", \"IdentifierValue\", \"PartitionKey\", COUNT(*) \r\nFROM public.\"{partitionTable}\"\r\nWhere \"IdentifierValue\" like 'id-%' and (\"IdentifierUse\" = '' or \"IdentifierUse\" = 'Old')\r\ngroup by  \"PartitionKey\", \"IdentifierSystem\", \"IdentifierValue\"\r\nHAVING COUNT(*) > 1\r\nORDER BY  \"PartitionKey\" ASC";
-
+                        sql = $"SELECT   \"IdentifierSystem\", \"IdentifierValue\", \"PartitionKey\", COUNT(DISTINCT \"RecordId\") \r\nFROM public.\"{partitionTable}\"\r\nWhere \"IdentifierValue\" like 'id-%'\r\ngroup by  \"PartitionKey\", \"IdentifierSystem\", \"IdentifierValue\"\r\nHAVING COUNT(DISTINCT \"RecordId\") > 1\r\nORDER BY  \"PartitionKey\" ASC";
+                       
                         command.CommandText = sql;
                         using var partreader = await command.ExecuteReaderAsync(cancellationToken);
 
@@ -86,16 +86,15 @@ namespace RemoveDuplicateIdentifier.Services
                             while (partreader.Read())
                             {
                                 var imDup = new IMDuplicates();
-                                imDup.organizationId = OrganizationId;
+                                imDup.OrganizationId = OrganizationId;
                                 imDup.IdentifierValue = partreader["IdentifierValue"].ToString();
+                                imDup.Count = partreader["count"].ToString();
                                 imDuplicates.Add(imDup);
                             }
                         }
-                        else                            
+                                                                        
                             conn.Close();
-
-
-                    }                    
+                        }                    
                 }
                 //  Write to IMDuplicates.json
                 string imdupPath = Path.Combine(Directory.GetCurrentDirectory(), "Files", "IMDuplicates.json");
